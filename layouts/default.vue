@@ -1,5 +1,5 @@
 <template>
-    <div>
+  <div class="flex flex-col">
     <AppHeader />
     <slot />
     <AppFooter />
@@ -7,9 +7,6 @@
 </template>
 
 <script setup>
-
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
