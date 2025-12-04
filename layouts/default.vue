@@ -1,7 +1,9 @@
 <template>
-  <div class="flex flex-col">
+  <div class="">
     <AppHeader />
-    <slot />
+    <div class="py-24 mx-auto max-w-7xl">
+      <slot />
+    </div>
     <AppFooter />
   </div>
 </template>
