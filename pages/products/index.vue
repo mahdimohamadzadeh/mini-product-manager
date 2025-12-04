@@ -80,10 +80,10 @@
             </button>
             <button
               @click="deleteProduct"
-              :disabled="deletingProduct"
+              :disabled="store.loading"
               class="flex-1 px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600 disabled:opacity-50"
             >
-              {{ deletingProduct ? 'Deleting...' : 'Delete' }}
+              {{ store.loading ? 'Deleting...' : 'Delete' }}
             </button>
           </div>
         </div>
@@ -93,35 +93,33 @@
 </template>
 
 <script setup lang="ts">
-import type { Product } from '~/types/pages/products.type'
+import { useProductStore } from '~/stores/products'
 
 definePageMeta({
   middleware: 'auth'
 })
 
 const router = useRouter()
+const store = useProductStore()
 
-const products = ref<Product[]>([])
-const filteredProducts = ref<Product[]>([])
+const filteredProducts = ref<any[]>([])
 const search = ref('')
 
 const showDeleteModal = ref(false)
 const deleteProductId = ref<number | null>(null)
 const deleteProductName = ref('')
-const deletingProduct = ref(false)
 
 onMounted(async () => {
-  const response: any = await $fetch('/api/products')
-  products.value = response.data || []
-  filteredProducts.value = products.value
+  await store.fetchProducts()
+  filteredProducts.value = store.products
 })
 
 const filterProducts = () => {
   if (!search.value.trim()) {
-    filteredProducts.value = products.value
+    filteredProducts.value = store.products
   } else {
     const searchTerm = search.value.toLowerCase()
-    filteredProducts.value = products.value.filter(p =>
+    filteredProducts.value = store.products.filter(p =>
       p.name.toLowerCase().includes(searchTerm)
     )
   }
@@ -141,18 +139,11 @@ const deleteProduct = async () => {
   if (!deleteProductId.value) return
 
   try {
-    deletingProduct.value = true
-    await $fetch(`/api/products/${deleteProductId.value}`, {
-      method: 'DELETE'
-    })
-
-    products.value = products.value.filter(p => p.id !== deleteProductId.value)
+    await store.deleteProduct(deleteProductId.value)
     filterProducts()
     showDeleteModal.value = false
   } catch (error) {
     console.error('Failed to delete product:', error)
-  } finally {
-    deletingProduct.value = false
   }
 }
 </script>

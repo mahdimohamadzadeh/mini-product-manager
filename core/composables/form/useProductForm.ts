@@ -1,8 +1,6 @@
 import type { Category, Product } from '~/types/pages/products.type'
 import type { FormErrors, ProductFormState } from './types'
 
-
-
 export const useProductForm = () => {
   const errors = ref<FormErrors>({})
   const isLoading = ref<boolean>(false)
@@ -26,7 +24,7 @@ export const useProductForm = () => {
       isValid = false
     }
 
-    if (formData.stock) {
+    if (!formData.stock) {
       errors.value.stock = 'Stock required'
       isValid = false
     }

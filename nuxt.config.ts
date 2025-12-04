@@ -12,7 +12,7 @@ export default defineNuxtConfig({
     strict: false
   },
 
-  modules: [],
+  modules: ['@pinia/nuxt'],
   
   css: ['~/assets/styles/main.scss'],
   

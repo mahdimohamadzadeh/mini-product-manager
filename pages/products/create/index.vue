@@ -32,8 +32,8 @@
         <p v-if="errors.stock" class="mt-1 text-xs text-red-500">{{ errors.stock }}</p>
       </div>
 
-      <button type="submit" :disabled="isLoading" class="w-full px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 disabled:opacity-50">
-        {{ isLoading ? 'Creating...' : 'Create' }}
+      <button type="submit" :disabled="store.loading" class="w-full px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 disabled:opacity-50">
+        {{ store.loading ? 'Creating...' : 'Create' }}
       </button>
     </form>
   </div>
@@ -41,13 +41,15 @@
 
 <script setup lang="ts">
 import { useProductForm } from '~/core/composables/form/useProductForm'
+import { useProductStore } from '~/stores/products'
 import type { Category } from '~/types/pages/products.type'
 
 definePageMeta({
   middleware: 'auth'
 })
 
-const { createProduct, errors, isLoading, fetchCategories } = useProductForm()
+const { errors, fetchCategories } = useProductForm()
+const store = useProductStore()
 
 const formData = ref({
   name: '',
@@ -63,8 +65,32 @@ onMounted(async () => {
 })
 
 const handleSubmit = async () => {
-  await createProduct(formData.value)
-  await navigateTo('/products')
+  try {
+    // Basic validation
+    if (!formData.value.name.trim()) {
+      errors.name = 'Name is required'
+      return
+    }
+    if (!formData.value.price || parseFloat(formData.value.price as any) <= 0) {
+      errors.price = 'Price must be greater than 0'
+      return
+    }
+    if (!formData.value.category) {
+      errors.category = 'Category is required'
+      return
+    }
+
+    await store.createProduct({
+      name: formData.value.name,
+      price: parseFloat(formData.value.price as any),
+      category: formData.value.category,
+      stock: parseInt(formData.value.stock as any) || 0
+    })
+    
+    await navigateTo('/products')
+  } catch (error) {
+    console.error('Failed to create product:', error)
+  }
 }
 </script>
 

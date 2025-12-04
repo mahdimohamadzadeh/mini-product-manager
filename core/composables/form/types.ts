@@ -10,4 +10,5 @@ export interface ProductFormState {
     price: string
     category: string
     stock: string
+    image: File | null
 }
