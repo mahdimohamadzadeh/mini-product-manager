@@ -1,58 +1,70 @@
 <template>
-  <div class="min-h-screen ">
-     <div class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-900">Create Product</h1>
-    </div>
-    <form @submit.prevent="createProduct" class="flex flex-col gap-4">
-      <input class="p-2 border border-gray-300 rounded" type="text" placeholder="Product Name" v-model="name">
-      <select class="p-2 border border-gray-300 rounded" name="category" id="category" v-model="category">
-        <option value="">Select Category</option>
-        <option v-for="category in categories" :key="category.id" :value="category.name">{{ category.name }}</option>
-      </select>
-      <input class="p-2 border border-gray-300 rounded" type="text" placeholder="Product Price" v-model="price">
-      <textarea class="p-2 border border-gray-300 rounded" type="text" placeholder="Product Description" v-model="description"/>
-      <input class="p-2 border border-gray-300 rounded" type="text" placeholder="Product Stock" v-model="stock"/>
+  <div class="max-w-md p-6 mx-auto">
+    <h1 class="mb-6 text-2xl font-bold">Create Product</h1>
 
-      <!-- Product Image Picker -->
-      <BaseFilePicker v-model="image" accept="image/*" :imageOnly="true" label="Product Image" />
+    <form @submit.prevent="handleSubmit" class="space-y-4">
+      <div>
+        <label class="block mb-1 text-sm font-medium">Name *</label>
+        <input v-model="formData.name" type="text" class="w-full px-3 py-2 border rounded" />
+        <p v-if="errors.name" class="mt-1 text-xs text-red-500">{{ errors.name }}</p>
+      </div>
 
-      <button type="submit" class="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">Create</button>
+      <div>
+        <label class="block mb-1 text-sm font-medium">Price *</label>
+        <input v-model="formData.price" type="number" step="0.01" class="w-full px-3 py-2 border rounded" />
+        <p v-if="errors.price" class="mt-1 text-xs text-red-500">{{ errors.price }}</p>
+      </div>
+
+      <div>
+        <label class="block mb-1 text-sm font-medium">Category *</label>
+        <select v-model="formData.category" class="w-full px-3 py-2 border rounded">
+          <option value="">Select category</option>
+          <option v-for="cat in categories" :key="cat.id" :value="cat.name">
+            {{ cat.name }}
+          </option>
+        </select>
+        <p v-if="errors.category" class="mt-1 text-xs text-red-500">{{ errors.category }}</p>
+      </div>
+
+      <div>
+        <label class="block mb-1 text-sm font-medium">Stock</label>
+        <input v-model="formData.stock" type="number" class="w-full px-3 py-2 border rounded" />
+        <p v-if="errors.stock" class="mt-1 text-xs text-red-500">{{ errors.stock }}</p>
+      </div>
+
+      <button type="submit" :disabled="isLoading" class="w-full px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 disabled:opacity-50">
+        {{ isLoading ? 'Creating...' : 'Create' }}
+      </button>
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useProductForm } from '~/core/composables/form/useProductForm'
 import type { Category } from '~/types/pages/products.type'
 
-const name = ref('')
-const price = ref('')
-const category = ref('')
-const description = ref('')
-const stock = ref('')
-const image = ref<File | File[] | null>(null)
-const categories = ref<Category[]>([
-  {
-    id: 1,
-    name: 'Electronics'
-  },
-  {
-    id: 2,
-    name: 'Clothing'
-  },
-  {
-    id: 3,
-    name: 'Books'
-  }
-])
+definePageMeta({
+  middleware: 'auth'
+})
 
-const createProduct = () => {
-  // For now just log collected values; image may be a File or array of Files.
-  console.log('name:', name.value)
-  console.log('price:', price.value)
-  console.log('category:', category.value)
-  console.log('description:', description.value)
-  console.log('stock:', stock.value)
-  console.log('image:', image.value)
+const { createProduct, errors, isLoading, fetchCategories } = useProductForm()
+
+const formData = ref({
+  name: '',
+  price: '',
+  category: '',
+  stock: ''
+})
+
+const categories = ref<Category[]>([])
+
+onMounted(async () => {
+  categories.value = await fetchCategories()
+})
+
+const handleSubmit = async () => {
+  await createProduct(formData.value)
+  await navigateTo('/products')
 }
 </script>
 

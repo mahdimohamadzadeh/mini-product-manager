@@ -24,11 +24,6 @@
           </ul>
         </div>
       </div>
-      <div class="flex flex-col items-center justify-between py-6 md:flex-row">
-        <p class="text-sm text-gray-400">
-          &copy; 2024 Product Manager. All rights reserved.
-        </p>
-      </div>
     </div>
   </footer>
 </template>

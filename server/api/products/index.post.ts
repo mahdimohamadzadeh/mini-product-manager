@@ -1,4 +1,4 @@
-const products = [
+let products = [
   {
     id: 1,
     name: 'Laptop',
@@ -71,33 +71,41 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const { id } = event.context.params as { id: string }
-  const productId = parseInt(id, 10)
+  const body = await readBody(event)
 
-  if (isNaN(productId)) {
+  if (!body.name || !body.price || !body.category) {
     throw createError({
       statusCode: 400,
       statusMessage: 'Bad Request',
       data: {
-        message: 'Product ID must be a valid number'
+        message: 'Name, price, and category are required'
       }
     })
   }
 
-  const product = products.find(p => p.id === productId)
-
-  if (!product) {
+  if (typeof body.name !== 'string' || typeof body.price !== 'number' || typeof body.category !== 'string') {
     throw createError({
-      statusCode: 404,
-      statusMessage: 'Not Found',
+      statusCode: 400,
+      statusMessage: 'Bad Request',
       data: {
-        message: `Product with ID ${productId} not found`
+        message: 'Invalid data types: name (string), price (number), category (string)'
       }
     })
   }
+  
+  const newProduct = {
+    id: Math.max(...products.map(p => p.id), 0) + 1,
+    name: body.name,
+    price: body.price,
+    category: body.category,
+    stock: body.stock || 0
+  }
+
+  products.push(newProduct)
 
   return {
     success: true,
-    data: product
+    message: 'Product created successfully',
+    data: newProduct
   }
 })

@@ -1,5 +1,4 @@
 export default defineNuxtRouteMiddleware((to, from) => {
-  debugger
   let authToken: string | Ref<string | null> = ''
   if (process.client) {
     authToken = localStorage.getItem('auth_token')

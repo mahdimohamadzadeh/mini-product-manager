@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-dvh">
+  <div>
     <AppHeader />
     <div class="py-24 mx-auto max-w-7xl">
       <slot />

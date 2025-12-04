@@ -4,7 +4,6 @@ let products = [
     name: 'Laptop',
     price: 999.99,
     category: 'Electronics',
-    description: 'High-performance laptop for professionals',
     stock: 15
   },
   {
@@ -12,7 +11,6 @@ let products = [
     name: 'Wireless Mouse',
     price: 29.99,
     category: 'Accessories',
-    description: 'Ergonomic wireless mouse',
     stock: 50
   },
   {
@@ -20,7 +18,6 @@ let products = [
     name: 'USB-C Cable',
     price: 12.99,
     category: 'Cables',
-    description: 'High-speed USB-C charging cable',
     stock: 100
   },
   {
@@ -28,7 +25,6 @@ let products = [
     name: 'Monitor',
     price: 299.99,
     category: 'Electronics',
-    description: '4K Ultra HD Monitor',
     stock: 20
   },
   {
@@ -36,7 +32,6 @@ let products = [
     name: 'Keyboard',
     price: 79.99,
     category: 'Accessories',
-    description: 'Mechanical keyboard with RGB',
     stock: 35
   }
 ]
@@ -108,7 +103,6 @@ export default defineEventHandler(async (event) => {
     ...(body.name && { name: body.name }),
     ...(body.price !== undefined && { price: body.price }),
     ...(body.category && { category: body.category }),
-    ...(body.description !== undefined && { description: body.description }),
     ...(body.stock !== undefined && { stock: body.stock })
   }
 

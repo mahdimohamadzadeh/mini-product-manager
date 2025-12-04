@@ -71,33 +71,9 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const { id } = event.context.params as { id: string }
-  const productId = parseInt(id, 10)
-
-  if (isNaN(productId)) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'Bad Request',
-      data: {
-        message: 'Product ID must be a valid number'
-      }
-    })
-  }
-
-  const product = products.find(p => p.id === productId)
-
-  if (!product) {
-    throw createError({
-      statusCode: 404,
-      statusMessage: 'Not Found',
-      data: {
-        message: `Product with ID ${productId} not found`
-      }
-    })
-  }
-
   return {
     success: true,
-    data: product
+    data: products,
+    count: products.length
   }
 })

@@ -2,28 +2,15 @@
   <div class="flex items-center justify-center min-h-screen px-4 py-12 bg-gradient-to-br from-blue-50 to-indigo-100 sm:px-6 lg:px-8">
     <div class="w-full max-w-md space-y-8">
       <div class="text-center">
-        <div class="flex items-center justify-center w-12 h-12 mx-auto bg-blue-600 rounded-lg">
-          <span class="text-2xl font-bold text-white">P</span>
-        </div>
         <h2 class="mt-6 text-3xl font-bold text-gray-900">Product Manager</h2>
-        <p class="mt-2 text-sm text-gray-600">Sign in to your account to continue</p>
       </div>
-
+      
       <form @submit.prevent="handleLogin" class="mt-8 space-y-6">
         <div
           v-if="errorMessage"
           class="p-4 rounded-md bg-red-50"
         >
           <div class="flex">
-            <div class="flex-shrink-0">
-              <svg class="w-5 h-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                <path
-                  fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </div>
             <div class="ml-3">
               <p class="text-sm text-red-800">{{ errorMessage }}</p>
             </div>
@@ -35,15 +22,6 @@
           class="p-4 rounded-md bg-green-50"
         >
           <div class="flex">
-            <div class="flex-shrink-0">
-              <svg class="w-5 h-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-                <path
-                  fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </div>
             <div class="ml-3">
               <p class="text-sm text-green-800">{{ successMessage }}</p>
             </div>
@@ -104,17 +82,12 @@
         >
           <span v-if="!isLoading">Sign in</span>
           <span v-else class="flex items-center">
-            <svg class="w-5 h-5 mr-3 -ml-1 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
             Signing in...
           </span>
         </button>
       </form>
 
       <div class="p-4 rounded-md bg-blue-50">
-        <h3 class="text-sm font-medium text-blue-900">Demo Credentials</h3>
         <p class="mt-2 text-xs text-blue-700">
           <span class="font-semibold">Username:</span> demo<br />
           <span class="font-semibold">Password:</span> password123
