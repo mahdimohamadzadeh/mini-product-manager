@@ -45,7 +45,16 @@ export function useAuth(): UseAuthReturn {
     if (process.client) {
       localStorage.removeItem('auth_token')
       localStorage.removeItem('auth_user')
+    }else{
+      const event = useEvent()
+      setCookie(event, 'auth_token', '', {
+        maxAge: 0,
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax'
+      })
     }
+    navigateTo('/login')
   }
   
   const isLoggedIn = computed<boolean>(() => !!token.value)

@@ -1,6 +1,6 @@
 <template>
-  <footer class="absolute bottom-0 w-full text-gray-100 bg-gray-900">
-    <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+  <footer class="w-full text-gray-100 bg-gray-900 ">
+    <div class="px-4 mx-auto max-w-7xl">
       <div class="grid grid-cols-1 gap-8 py-12 md:grid-cols-4">
         <div class="space-y-4">
           <div class="flex items-center space-x-2">

@@ -21,6 +21,8 @@
             <th class="p-2">Product Name</th>
             <th class="p-2">Price</th>
             <th class="p-2">category</th>
+            <th class="p-2">Description</th>
+            <th class="p-2">Stock</th>
             <th class="p-2">Actions</th>
           </tr>
         </thead>
@@ -29,6 +31,8 @@
             <td class="p-2">{{ product.name }}</td>
             <td class="p-2">{{ product.price }}</td>
             <td class="p-2">{{ product.category }}</td>
+            <td class="p-2">{{ product.description }}</td>
+            <td class="p-2">{{ product.stock }}</td>
             <td class="flex gap-2 p-2">
               <button
                 @click="editProduct(product)"

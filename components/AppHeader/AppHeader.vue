@@ -1,3 +1,8 @@
+<script setup lang="ts">
+import { useAuth } from '~/core/composables/auth/useAuth';
+
+</script>
+
 <template>
   <header class="fixed top-0 w-full bg-white border-b border-gray-200 shadow-md">
     <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -30,6 +35,12 @@
           >
             Create Product
           </NuxtLink>
+          <button
+            @click="useAuth().logout()"
+            class="px-4 py-2 text-sm font-medium text-white transition-colors bg-red-600 rounded-lg hover:bg-red-700"
+          >
+            logout
+          </button>
         </div>
       </div>
     </div>
