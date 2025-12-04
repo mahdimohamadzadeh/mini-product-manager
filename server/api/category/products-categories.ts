@@ -1,43 +1,21 @@
-const products = [
+const categories = [
   {
     id: 1,
-    name: 'Laptop',
-    price: 999.99,
-    category: 'Electronics',
-    description: 'High-performance laptop for professionals',
-    stock: 15
+    name: 'Electronics',
+    description: 'Electronic devices and gadgets',
+    productCount: 2
   },
   {
     id: 2,
-    name: 'Wireless Mouse',
-    price: 29.99,
-    category: 'Accessories',
-    description: 'Ergonomic wireless mouse',
-    stock: 50
+    name: 'Accessories',
+    description: 'Computer and tech accessories',
+    productCount: 2
   },
   {
     id: 3,
-    name: 'USB-C Cable',
-    price: 12.99,
-    category: 'Cables',
-    description: 'High-speed USB-C charging cable',
-    stock: 100
-  },
-  {
-    id: 4,
-    name: 'Monitor',
-    price: 299.99,
-    category: 'Electronics',
-    description: '4K Ultra HD Monitor',
-    stock: 20
-  },
-  {
-    id: 5,
-    name: 'Keyboard',
-    price: 79.99,
-    category: 'Accessories',
-    description: 'Mechanical keyboard with RGB',
-    stock: 35
+    name: 'Cables',
+    description: 'Various types of cables and connectors',
+    productCount: 1
   }
 ]
 
@@ -53,7 +31,6 @@ export default defineEventHandler(async (event) => {
       }
     })
   }
-
 
   try {
     const decodedToken = JSON.parse(Buffer.from(authToken, 'base64').toString())
@@ -79,7 +56,7 @@ export default defineEventHandler(async (event) => {
 
   return {
     success: true,
-    data: products,
-    count: products.length
+    data: categories,
+    count: categories.length
   }
 })

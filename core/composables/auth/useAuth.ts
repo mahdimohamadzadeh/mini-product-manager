@@ -3,7 +3,7 @@ import type { AuthResponse, UseAuthReturn } from './types'
 
 export function useAuth(): UseAuthReturn {
   const token = useCookie<string | null>('auth_token', {
-    maxAge: 60 * 60 * 24 * 7 // 7 days
+    maxAge: 60 * 60 * 24 * 7
   })
   
   const login = async (username: string, password: string): Promise<AuthResponse> => {
@@ -20,10 +20,17 @@ export function useAuth(): UseAuthReturn {
       
       if (data.value?.token) {
         token.value = data.value.token
-        // Also store in localStorage for persistence across tabs
         if (process.client) {
           localStorage.setItem('auth_token', data.value.token)
           localStorage.setItem('auth_user', JSON.stringify(data.value.user))
+        }else {
+          const event = useEvent()
+          setCookie(event, 'auth_token', data.value.token, {
+            maxAge: 60 * 60 * 24 * 7,
+            httpOnly: true,
+            secure: true,
+            sameSite: 'lax'
+          })
         }
       }
       

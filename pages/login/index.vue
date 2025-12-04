@@ -131,7 +131,8 @@ import { useRouter } from 'vue-router'
 import type { AuthCredentials } from '~/core/composables/auth/types'
 
 definePageMeta({
-  layout: 'blank'
+  layout: 'blank',
+   middleware: 'auth'
 })
 
 const { login } = useAuth()
@@ -142,7 +143,6 @@ const credentials = ref<AuthCredentials>({
   password: ''
 })
 
-const rememberMe = ref(false)
 const isLoading = ref(false)
 const errorMessage = ref('')
 const successMessage = ref('')
@@ -185,7 +185,6 @@ const handleLogin = async () => {
   if (!isFormValid.value) return
 
   isLoading.value = true
-  debugger
   try {
     const response = await login(credentials.value.username, credentials.value.password)
     
@@ -195,7 +194,9 @@ const handleLogin = async () => {
       username: '',
       password: ''
     }
-      router.push('/products')
+    
+    await new Promise(resolve => setTimeout(resolve, 100))
+    await router.push('/products')
   } catch (error: any) {
     errorMessage.value = error?.message || 'Invalid username or password'
   } finally {

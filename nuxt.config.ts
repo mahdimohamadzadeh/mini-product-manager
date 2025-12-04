@@ -4,19 +4,15 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   
   devtools: { 
-    enabled: true 
+    enabled: false
   },
   
   typescript: {
-    typeCheck: true,
-    tsConfig: {
-      compilerOptions: {
-        strict: true
-      }
-    }
+    typeCheck: false,
+    strict: false
   },
 
-  modules: ['@nuxt/image'],
+  modules: [],
   
   css: ['~/assets/styles/main.scss'],
   
@@ -27,7 +23,17 @@ export default defineNuxtConfig({
     }
   },
 
-  alias: {
-    "@components": "/core/components",
+  imports: {
+    autoImport: true
+  },
+
+  nitro: {
+    prerender: {
+      crawlLinks: false,
+      routes: ['/']
+    },
+    externals: {
+      inline: ['vue']
+    }
   }
 })

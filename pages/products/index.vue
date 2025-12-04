@@ -52,7 +52,7 @@
 
 <script setup lang="ts">
 import type { Router } from 'vue-router'
-import type { Product } from './types/products.type'
+import type { Product } from '~/types/pages/products.type'
 
 definePageMeta({
   middleware: 'auth'
@@ -65,19 +65,25 @@ const products = ref<Product[]>([
     id: 1,
     name: 'Product 1',
     price: 100,
-    category: 'Category 1'
+    category: 'Category 1',
+    description: 'Description 1',
+    stock: 10
   },
   {
     id: 2,
     name: 'Product 2',
     price: 200,
-    category: 'Category 2'
+    category: 'Category 2',
+    description: 'Description 2',
+    stock: 20
   },
   {
     id: 3,
     name: 'Product 3',
     price: 300,
-    category: 'Category 3'
+    category: 'Category 3',
+    description: 'Description 3',
+    stock: 30
   }
 ])
 
